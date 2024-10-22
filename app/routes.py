@@ -123,29 +123,35 @@ def register_routes(app):
         
     ### StoreFiles in each model ###        
     @app.route('/storeSkinCancer/', methods=['POST'])
+    @login_required
     def storeSkinCancer():
         return store_files(model_name='SkinCancer', file_key='image', username_key='user')
 
     @app.route('/storePRSice2/', methods=['POST'])
+    @login_required
     def storePRSice2():
         return store_files(model_name='PRSice2', file_key='fileResult', username_key='user')
 
     @app.route('/storeGRUD/',methods=['POST'])
+    @login_required
     def storeGRUD():
         return store_files(model_name='GRUD',file_key='fileResult',username_key='user')
     
     @app.route('/storeVGPdiseases/',methods=['POST'])
+    @login_required
     def storeVGPdiseases():
         return store_files(model_name='VGPdiseases',file_key='image',username_key='user')
     ###      ###
 
     @app.route('/historyFiles/',methods=['POST'])
+    @login_required
     def historyFiles():
         user_id = get_user_id_by_username('biomodel')
         files_list = UserFiles.query.filter_by(user_id=user_id).all()
         return jsonify([file.serialize() for file in files_list])
 
     @app.route('/deleteFileResult/',methods=['POST'])
+    @login_required
     def delFileResult():
         user_id = get_user_id_by_username('biomodel')
         data = request
