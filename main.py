@@ -13,10 +13,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # CORS(app, resources={r"/*": {"origins": "*"}})
 CORS(app, resources={r"/*": {
-    "origins": "*", # Cho
+    "origins": "127.0.0.2 5000", # Cho
     "methods": "*", # Các
     "allow_headers":"*"  
-}})
+}},
+supports_credentials= True)
+
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -32,3 +34,4 @@ db.init_app(app)
 register_routes(app)
 if __name__ == '__main__':
     app.run(debug=True)
+    
