@@ -86,7 +86,7 @@ def register_routes(app):
         user = User.query.filter_by(username=username).first()
 
         
-        if user and (check_password_hash(user.password, password)): 
+        if user and check_password_hash(user.password, password): 
             # Lưu thông tin người dùng vào session
             session['user_id'] = user.id
             print(user, user.password)
@@ -146,14 +146,14 @@ def register_routes(app):
     @app.route('/historyFiles/',methods=['POST'])
     @login_required
     def historyFiles():
-        user_id = get_user_id_by_username('biomodel')
+        user_id = current_user.id
         files_list = UserFiles.query.filter_by(user_id=user_id).all()
         return jsonify([file.serialize() for file in files_list])
 
     @app.route('/deleteFileResult/',methods=['POST'])
     @login_required
     def delFileResult():
-        user_id = get_user_id_by_username('biomodel')
+        user_id = get_user_id_by_username(current_user.username)
         data = request
         del_id = data.form.get('id')
 
@@ -172,5 +172,3 @@ def register_routes(app):
                 return jsonify({"error": str(e)})
         else:
             return jsonify({"message": "File not found"})
-
-
